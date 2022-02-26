@@ -15,7 +15,7 @@ print('')
 # Start program
 keep = input('Do you want to start timer(y/n) :')
 if keep=='y':
-    print('You succes to set timer 'set_time'mintes later.')
+    print('You succes to set timer '+set_time+'mintes later.')
     timer =  int(minte)*int(set_time)
     time.sleep(timer)
     # Play music
