@@ -1,0 +1,5 @@
+BTCchart.py
+
+改善点はScreenShotができない
+
+改善方法はwindowsもともとのShortCatを使用する
