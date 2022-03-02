@@ -13,9 +13,10 @@ url = 'https://coinmarketcap.com/currencies/'+input_coin
 page = req.get(url, headers=headers)
 soup = BeautifulSoup(page.content, 'html.parser')
 
-# Get price
+# Get info
 coin_prc = soup.find('div', attrs={'class':'priceValue'}).getText()
+symbol = soup.find('small', attrs={'class':'nameSymbol'}).getText()
 
 # Print info
-print(input_coin+' price:')
+print(symbol+' price:')
 print(coin_prc)
