@@ -34,3 +34,15 @@ if keep=='y':
     print(prc1)
 
     # The last one is print"."
+
+'''
+
+mylist = ["A", "B", "C", "D", "E"]
+
+print("B" in mylist)
+>> True
+
+print("G" in mylist)
+>> False
+
+'''
