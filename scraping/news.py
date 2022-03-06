@@ -14,7 +14,11 @@ soup = BeautifulSoup(page.content, 'html.parser')
 
 # Get news
 news = soup.find_all('h2')
+num = 0
 
 # Print news
 for div in news:
-    print(div.text)
+    newss = div.text
+    num = num+1
+    info = [num, newss]
+    print(info)
