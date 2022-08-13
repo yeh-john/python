@@ -1,3 +1,5 @@
+# This program can automate to delete mercari's prodocuts.
+
 import pyautogui as pgui
 import time
 
