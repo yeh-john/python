@@ -1,17 +1,22 @@
+# Chrome driver url : https://chromedriver.chromium.org/downloads
+
+# Import modules
 from selenium import webdriver
 from time import sleep
 
 
-# -----  Start login  ----------------------------------------
+# -----  Setup scraping  ----------------------------------------
 # Open browser
-browser = webdriver.Chrome('chromedriver')
+browser = webdriver.Chrome('./chromedriver')
 
 # Open url
 url = "https://postprime.com"
 browser.get(url)
 sleep(3)
-print("start find")
+print("Start scraping")
 
+
+# -----  Start login  ----------------------------------------
 # Start login
 testbtn = browser.find_element_by_class_name("Button_button__q6YWL")
 testbtn.click()
@@ -48,9 +53,6 @@ sleep(2)
 browser.get("https://postprime.com/chart")
 sleep(4)
 
-# Start get btc data
-# data = browser.find_element_by_class_name("SymbolDataView_vote__kFeaM")
-
 name_datas = browser.find_elements_by_class_name("SymbolDataView_leftSide__lLy3l")
 name_values = []
 for name_datas in name_datas:
@@ -66,8 +68,8 @@ for up_datas in up_datas:
     upvalue = up_datas.text
     up_values.append(upvalue)
 # Delete value
-del up_values[1]
-del up_values[2]
+#del up_values[1]
+#del up_values[2]
 
 print(up_values) # test 
 
@@ -91,6 +93,18 @@ print(test)
 
 
 test[0].click()
+
+
+# --------  Login second account  ------------------------------------------------------
+
+
+
+
+
+
+# enipjlu144@iemail.one
+
+
 
 # logoutbtn = browser.find_element_by_class_name("OtherSettings_subItem__No9zI")
 
