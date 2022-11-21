@@ -98,6 +98,8 @@ for name_datas in name_datas:
 
 print(name_values) # test
 
+
+# Get up values
 up_datas = browser.find_elements_by_class_name("SymbolDataView_vote__kFeaM")
 
 up_values = []
