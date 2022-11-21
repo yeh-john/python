@@ -1,5 +1,3 @@
-# Linux version
-
 from selenium import webdriver
 from time import sleep
 
@@ -81,16 +79,28 @@ sleep(10)
 
 # Click other setting
 otherSetting = browser.find_elements_by_class_name("OtherSettings_item__wS_2c")
-
-sleep(3)
-
 otherSetting[0].click()
-sleep(3)
-otherSetting[2].click() # ----- これダメ
+sleep(2)
+
+browser.find_elements_by_class_name("OtherSettings_groupArrow__VrGlE")[2].click()
+sleep(6)
 
 
-""" logoutbtn = browser.find_element_by_class_name("OtherSettings_subItem__No9zI")
-logoutbtn.click() """
+test = browser.find_elements_by_xpath('//*[@id="react-tabs-11"]/div/div/div[3]/div[4]')
+print(test)
+
+
+test[0].click()
+
+# logoutbtn = browser.find_element_by_class_name("OtherSettings_subItem__No9zI")
+
+
+
+
+# Video(18:11) :  https://www.youtube.com/watch?v=kvj3On1k66A&list=RDCMUC0xRMqPOyRNPTaL6BxhbCnQ&index=3
+
+
+
 
 # Quit browserotherSetting[2].click()
 # browser.quit()
