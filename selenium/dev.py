@@ -2,6 +2,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
+import pandas as pd
+import math
 
 
 # -----  Setup scraping  ----------------------------------------
@@ -95,7 +97,7 @@ except:
 sleep(1)
 
 
-# --------  Start up get data  ------------------------------------------------------
+# --------  Start get up data  ------------------------------------------------------
 
 # Get name
 name_datas = browser.find_elements_by_class_name("SymbolDataView_leftSide__lLy3l")
@@ -138,11 +140,9 @@ browser.find_elements_by_class_name("OtherSettings_groupArrow__VrGlE")[2].click(
 sleep(6)
 
 
-test = browser.find_elements_by_xpath('//*[@id="react-tabs-11"]/div/div/div[3]/div[4]')
-print(test)
-
-
-test[0].click()
+logoutBtn = browser.find_elements_by_xpath('//*[@id="react-tabs-11"]/div/div/div[3]/div[4]')
+logoutBtn[0].click()
+sleep(5)
 
 
 # -----  Login second account  ----------------------------------------
@@ -176,43 +176,111 @@ loginbtn.click()
 sleep(2)
 
 
-# --------  Start vote up  ------------------------------------------------------
+# --------  Start vote down  ------------------------------------------------------
 
 # Move to chart section
 browser.get("https://postprime.com/chart")
 sleep(4)
 
-
-# Sp500 vote up
-voteUpbtn_sp500 = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[1]/div[2]/div[3]/div/div[2]/div[1]/div')
+# @@@@@@@@@@@@@@  Change this volue (sp500 down xpath )@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# Sp500 vote down
+voteDownbtn_sp500 = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[1]/div[2]/div[3]/div/div[2]/div[1]/div')
 try:
-  voteUpbtn_sp500.click()
+  voteDownbtn_sp500.click()
 except:
-  print("Already voted sp500 up")
+  print("Already voted sp500 down")
 sleep(1)
 
 
 # Move to bottom
 background = browser.find_element_by_css_selector("body")
-
 for i in range(5):
     background.send_keys(Keys.SPACE)
     sleep(1)
 
 
-# Btc vote up
-voteUpbtn_btc = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[2]/div[2]/div[2]/div/div[2]/div[1]/div')
+# Btc vote down
+voteDownbtn_btc = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[2]/div[2]/div[2]/div/div[2]/div[2]/div')
 try:
-  voteUpbtn_btc.click()
+  voteDownbtn_btc.click()
 except:
-  print("Already voted btc up")
+  print("Already voted btc down")
 sleep(1)
 
 
-# Nasdap100
-voteUpbtn_ndq = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[3]/div[2]/div[2]/div/div[2]/div[1]/div')
+# Nasdap100 vote down
+voteDownbtn_ndq = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[3]/div[2]/div[2]/div/div[2]/div[2]/div')
 try:
-  voteUpbtn_ndq.click()
+  voteDownbtn_ndq.click()
 except:
-  print("Already voted ndq up")
+  print("Already voted ndq down")
 sleep(1)
+
+
+# --------  Start get down data  ------------------------------------------------------
+
+# Get down values
+down_datas = browser.find_elements_by_class_name("SymbolDataView_vote__kFeaM")
+
+down_values = []
+for down_datas in down_datas:
+    downvalue = down_datas.text
+    down_values.append(downvalue)
+
+# Delete value
+del down_values[0]
+del down_values[1]
+del down_values[2]
+
+#print(down_values) # test 
+
+browser.close()
+sleep(3)
+
+
+
+
+# @@@@@@@@@@  Delete  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+del down_values[0]
+down_values.insert(0, '1365')
+print(down_values) # test 
+# @@@@@@@@@@  Delete  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+# -------- Calculate datas  ------------------------------------------------------
+
+# Total vote amount
+total_values = [int(x)+int(y) for (x,y) in zip(up_values, down_values)]
+
+# Up percentage
+up_per = [int(x)/int(y) for (x,y) in zip(up_values, total_values)]
+up_per = [i * 100 for i in up_per]
+up_per = [math.floor(i) for i in up_per]
+up_per = [str(i)+"%" for i in up_per]
+
+# Down percentage
+down_per = [int(x)/int(y) for (x,y) in zip(down_values, total_values)]
+down_per = [i * 100 for i in down_per]
+down_per = [math.floor(i) for i in down_per]
+down_per = [str(i)+"%" for i in down_per]
+
+sleep(3)
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# Add time url : https://www.statology.org/pandas-add-subtract-time-to-datetime/
+
+
+# -------- Export datas  ------------------------------------------------------
+df = pd.DataFrame()
+df['Name'] = name_values
+df['Vote up amount'] = up_values
+df['Vote down amount'] = down_values
+df['Total vote amount'] = total_values
+df['Up percentage'] = up_per
+df['Down percentage'] = down_per
+sleep(2)
+
+df.to_csv('test.csv', index=False)
