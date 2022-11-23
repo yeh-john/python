@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 import pandas as pd
+from datetime import date
 import math
 
 
@@ -182,9 +183,8 @@ sleep(2)
 browser.get("https://postprime.com/chart")
 sleep(4)
 
-# @@@@@@@@@@@@@@  Change this volue (sp500 down xpath )@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 # Sp500 vote down
-voteDownbtn_sp500 = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[1]/div[2]/div[3]/div/div[2]/div[1]/div')
+voteDownbtn_sp500 = browser.find_element_by_xpath('//*[@id="react-tabs-9"]/div/div[2]/div[1]/div[2]/div[3]/div/div[2]/div[2]/div')
 try:
   voteDownbtn_sp500.click()
 except:
@@ -232,21 +232,11 @@ del down_values[0]
 del down_values[1]
 del down_values[2]
 
-#print(down_values) # test 
+print(down_values) # test 
+sleep(1)
 
 browser.close()
 sleep(3)
-
-
-
-
-# @@@@@@@@@@  Delete  @@@@@@@@@@@@@@@@@@@@@@@@@@@
-del down_values[0]
-down_values.insert(0, '1365')
-print(down_values) # test 
-# @@@@@@@@@@  Delete  @@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
 
 
 # -------- Calculate datas  ------------------------------------------------------
@@ -269,10 +259,6 @@ down_per = [str(i)+"%" for i in down_per]
 sleep(3)
 
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# Add time url : https://www.statology.org/pandas-add-subtract-time-to-datetime/
-
-
 # -------- Export datas  ------------------------------------------------------
 df = pd.DataFrame()
 df['Name'] = name_values
@@ -283,4 +269,9 @@ df['Up percentage'] = up_per
 df['Down percentage'] = down_per
 sleep(2)
 
-df.to_csv('test.csv', index=False)
+# Set date
+today = date.today()
+
+filename = "result"+str(today)+".csv"
+
+df.to_csv(filename, index=False)
