@@ -10,7 +10,7 @@ print('')
 
 print('------------------------------')
 print('')
-
+print('Start install......')
 
 '''
 
@@ -28,3 +28,5 @@ my_video = my_video.streams.get_highest_resolution()
 
 
 my_video.download('.')
+
+print('Done')
